@@ -9,8 +9,12 @@
   <body>
     <div class="container">
       <div class="stats">
-        <p class="stats__player">Player Score:</p>
-        <p class="stats__player">Computer Score:</p>
+        <p class="stats__player">
+          Player Score: <span class="stats__player-score">0</span>
+        </p>
+        <p class="stats__player">
+          Computer Score: <span class="stats__computer-score">0</span>
+        </p>
       </div>
       <div class="play__area">
         <div class="play__area-player">
@@ -21,20 +25,30 @@
         </div>
       </div>
       <button class="play__button">Play</button>
+
       <div class="hand__selection">
         <button class="hand__selection-rock hand__selection-btn active">
           Rock
         </button>
         <button class="hand__selection-paper hand__selection-btn">Paper</button>
-        <button class="hand__selection-rock hand__selection-btn">
+        <button class="hand__selection-scissor hand__selection-btn">
           Scissor
         </button>
       </div>
     </div>
 
-    <div class="notification win">
+    <div class="notification">
       <p class="notification__text">Player Won: rock beats paper</p>
     </div>
+
+
     <script src="scripts/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/gsap.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/ScrollTrigger.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/CustomEase.min.js"></script>
+    <!-- CustomBounce requires CustomEase -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/CustomBounce.min.js"></script>
   </body>
 </html>
