@@ -33,11 +33,18 @@
 }
 
 .play__area-player {
-  background-color: red;
+  background-color: rgb(231, 255, 146);
   flex-basis: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.play__area-player-span {
+  font-size: 5rem;
+}
+
+.play__area-computer-span {
+  font-size: 5rem;
 }
 
 .play__area-computer {
@@ -59,7 +66,10 @@
     color: #fff;
     padding: 10px 20px;
     margin: 1rem;
-
+}
+.disable {
+    border: 1px solid  #c5c5c5;
+    color: #c5c5c5;
 }
 
 
@@ -89,9 +99,9 @@
   align-items: center;
   /* color: #fff; */
   border-radius: 8px;
+  font-size: 1.2rem;
   /* display: none; */
 }
-
 .win {
   background-color: #7ffd74;
 }

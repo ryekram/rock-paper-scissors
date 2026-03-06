@@ -13,7 +13,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
   let humanSpanScore = document.querySelector(".stats__player-score");
   let computerSpanScore = document.querySelector(".stats__computer-score");
   let notification = document.querySelector(".notification");
+  let playerAreaSpan = document.querySelector(".play__area-player-span");
+  let computerAreaSpan = document.querySelector(".play__area-computer-span");
   let notificationText = document.querySelector(".notification__text");
+  let imageChoices = {
+    rock: "🪨",
+    paper: "📃",
+    scissor: "✂️",
+  };
 
   let getHumanChoice = (e) => {
     selected = e.target;
@@ -26,13 +33,17 @@ document.addEventListener("DOMContentLoaded", (event) => {
     } else {
       choice = "scissor";
     }
+
+    console.log(imageChoices);
+    playerAreaSpan.innerHTML = imageChoices[choice];
     return choice;
   };
 
   let getComputerChoice = () => {
     let rand = Math.floor(Math.random() * 3);
-    console.log(`randomize : ${rand}`);
     let choice = handleSelection[rand];
+    computerAreaSpan.innerHTML = imageChoices[choice];
+
     return choice;
   };
 
@@ -44,32 +55,53 @@ document.addEventListener("DOMContentLoaded", (event) => {
   };
 
   let notificationAnimation = (addClass = "") => {
-    console.log(addClass)
+    console.log(addClass);
     let tl = gsap.timeline();
-    tl.to(notification, {
-      className: "notification " + addClass,
-      duration: 1
+
+    tl.call(() => {
+      handSelectionArea.style.pointerEvents = "none";
+      for (let i = 0; i < handSelectionArea.children.length; i++) {
+        handSelectionArea.children[i].classList.add("disable");
+      }
     })
-    .to(notification, {
-      y: 50,
-      opacity: 1,
-      ease: "back.out",
-      duration: 0.5,
-    }, "<").to(notification, {
-      y: 0,
-      opacity: 0,
-      ease: "back.in",
-      duration: 0.5,
-      delay: 0.8,
-      // className: "notification ",
-    });
+
+      .to(notification, {
+        className: "notification " + addClass,
+        duration: 1,
+      })
+
+      .to(
+        notification,
+        {
+          y: 50,
+          opacity: 1,
+          ease: "back.out",
+          duration: 0.5,
+        },
+        "<",
+      )
+
+      .to(notification, {
+        y: 0,
+        opacity: 0,
+        ease: "back.in",
+        duration: 0.5,
+        delay: 1.5,
+      })
+
+      .call(() => {
+        handSelectionArea.style.pointerEvents = "auto";
+        for (let i = 0; i < handSelectionArea.children.length; i++) {
+          handSelectionArea.children[i].classList.remove("disable");
+        }
+      });
   };
 
   let playRound = (humanChoice, computerChoice) => {
     let humanWon = false;
     if (humanChoice === computerChoice) {
       notification.innerHTML = `It's a tie! player: ${humanChoice},  computer: ${computerChoice}`;
-      notificationAnimation()
+      notificationAnimation();
       // console.log(
       //   `It's a tie! player: ${humanChoice},  computer: ${computerChoice}`,
       // );
@@ -88,10 +120,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
       computerScore += 1;
     }
 
-    notification.innerHTML = `You ${humanWon ? "Win" : "Lose"}! ${humanChoice} beats ${computerChoice}`;
-    let winLoseClass = humanWon ? "win" : "lose"
-    console.log(winLoseClass)
-    notificationAnimation(winLoseClass)
+    notification.innerHTML = `You ${humanWon ? "Win" : "Lose"}! ${humanChoice} ${humanWon ? "beats" : "can't beat"} ${computerChoice}`;
+    let winLoseClass = humanWon ? "win" : "lose";
+    console.log(winLoseClass);
+    notificationAnimation(winLoseClass);
     // console.log(
 
     //   `You ${humanWon ? "Win" : "Lose"}! ${humanChoice} beats ${computerChoice}`,
