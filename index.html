@@ -7,8 +7,34 @@
     <title>rock, paper and scissors</title>
   </head>
   <body>
-    <button class="playBtn">Play</button>
+    <div class="container">
+      <div class="stats">
+        <p class="stats__player">Player Score:</p>
+        <p class="stats__player">Computer Score:</p>
+      </div>
+      <div class="play__area">
+        <div class="play__area-player">
+          <span>🪨</span>
+        </div>
+        <div class="play__area-computer">
+          <span>💻</span>
+        </div>
+      </div>
+      <button class="play__button">Play</button>
+      <div class="hand__selection">
+        <button class="hand__selection-rock hand__selection-btn active">
+          Rock
+        </button>
+        <button class="hand__selection-paper hand__selection-btn">Paper</button>
+        <button class="hand__selection-rock hand__selection-btn">
+          Scissor
+        </button>
+      </div>
+    </div>
 
+    <div class="notification win">
+      <p class="notification__text">Player Won: rock beats paper</p>
+    </div>
     <script src="scripts/script.js"></script>
   </body>
 </html>

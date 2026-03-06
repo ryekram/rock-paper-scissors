@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
   let humanScore = 0;
   let computerScore = 0;
   let handleSelection = ["rock", "paper", "scissor"];
-  let playBtn = document.querySelector(".playBtn");
+  let playBtn = document.querySelector(".play__button");
 
   let getHumanChoice = () => {
     let result = null;
