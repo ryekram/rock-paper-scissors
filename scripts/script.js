@@ -8,18 +8,17 @@ document.addEventListener("DOMContentLoaded", (event) => {
   let playBtn = document.querySelector(".playBtn");
 
   let getHumanChoice = () => {
-    let choice = window.prompt("Please select your hand: ");
-    let result = validateAndLowerCase(choice);
-    console.log(result);
-    if (!result) {
-      return getHumanChoice();
+    let result = null;
+    while (!result) {
+      let choice = window.prompt("Please select your hand: ");
+      result = validateAndLowerCase(choice);
     }
     return result;
   };
 
   let getComputerChoice = () => {
     let rand = Math.floor(Math.random() * 3);
-    console.log(`randomize : ${ rand }`)
+    console.log(`randomize : ${rand}`);
     let choice = handleSelection[rand];
     return choice;
   };
@@ -60,8 +59,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let humanSelection = getHumanChoice();
     let computerSelection = getComputerChoice();
     playRound(humanSelection, computerSelection);
-    console.log(`PlayerScore: ${humanScore}`)
-    console.log(`ComputerScore: ${computerScore}`)
+    console.log(`PlayerScore: ${humanScore}`);
+    console.log(`ComputerScore: ${computerScore}`);
   };
   playBtn.addEventListener("click", handleClick);
 
