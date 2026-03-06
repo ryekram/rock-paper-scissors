@@ -33,7 +33,7 @@
 }
 
 .play__area-player {
-  background-color: rgb(231, 255, 146);
+  background-color: #616161;
   flex-basis: 50%;
   display: flex;
   justify-content: center;
