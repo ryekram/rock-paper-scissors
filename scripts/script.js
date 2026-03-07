@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
       handSelectionArea.style.pointerEvents = "none";
     }
-  }
+  };
 
   let handAnimation = (areaSpan) => {
     let tl = gsap.timeline({ repeat: 3, ease: "power.out" });
@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         for (let i = 0; i < handSelectionArea.children.length; i++) {
           handSelectionArea.children[i].classList.remove("disable");
         }
-      })
+      });
 
     return tl;
   };
@@ -138,7 +138,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let humanWon = false;
     if (humanChoice === computerChoice) {
       notification.innerHTML = `It's a tie!`;
-      notificationAnimation();
+      notificationAnimation().call(isGameOver)
       return;
     }
     if (humanChoice === "rock" && computerChoice === "scissor") {
@@ -156,11 +156,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     notification.innerHTML = `You ${humanWon ? "Win" : "Lose"}! ${humanChoice} ${humanWon ? "beats" : "can't beat"} ${computerChoice}`;
     let addClass = humanWon ? "win" : "lose";
-    notificationAnimation(addClass);
+    notificationAnimation(addClass).call(isGameOver);
 
-    isGameOver()
   };
-
 
   let gameReset = () => {
     round = 0;
@@ -174,6 +172,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
     computerSpanScore.innerHTML = "0";
 
     endGame.style.display = "none";
+    handSelectionArea.style.pointerEvents = "auto";
+    for (let i = 0; i < handSelectionArea.children.length; i++) {
+      handSelectionArea.children[i].classList.remove("disable");
+    }
   };
   let handleClick = () => {
     handSelectionArea.style.display = "flex";
