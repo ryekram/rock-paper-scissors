@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", (event) => {
   gsap.registerPlugin(ScrollTrigger, CustomEase, CustomBounce);
 
-  let rounds = 5;
+  let round = 0;
   let humanScore = 0;
   let computerScore = 0;
   let handleSelection = ["rock", "paper", "scissor"];
@@ -12,12 +12,30 @@ document.addEventListener("DOMContentLoaded", (event) => {
   let notification = document.querySelector(".notification");
   let playerAreaSpan = document.querySelector(".play__area-player-span");
   let computerAreaSpan = document.querySelector(".play__area-computer-span");
+  let endGame = document.querySelector(".endgame");
+  let endGameMessage = document.querySelector(".endgame__message");
+  let btnReset = document.querySelector(".endgame__reset");
   let imageChoices = {
     rock: "🪨",
     paper: "📃",
     scissor: "✂️",
   };
 
+  let isGameOver = () => {
+    if (round === 2) {
+      endGame.style.display = "flex";
+
+      if (humanScore > computerScore) {
+        endGameMessage.innerHTML = "You won the game!";
+      } else if (humanScore < computerScore) {
+        endGameMessage.innerHTML = "Computer won the game!";
+      } else {
+        endGameMessage.innerHTML = "It's a draw!";
+      }
+
+      handSelectionArea.style.pointerEvents = "none";
+    }
+  }
 
   let handAnimation = (areaSpan) => {
     let tl = gsap.timeline({ repeat: 3, ease: "power.out" });
@@ -39,23 +57,17 @@ document.addEventListener("DOMContentLoaded", (event) => {
         },
         duration: 0.1,
       });
-    // tl.call(() => {
-    //   areaSpan.innerHTML = choiceHand;
-    //   humanSpanScore.innerHTML = humanScore;
-    //   computerSpanScore.innerHTML = computerScore;
-    // });
+
     return tl;
   };
 
   let handShowAnimation = (areaSpan, firstTl, choiceHand) => {
     let tl = gsap.timeline();
-    tl.add(firstTl(areaSpan))
-      .call(() => {
-        areaSpan.innerHTML = choiceHand;
-        humanSpanScore.innerHTML = humanScore;
-        computerSpanScore.innerHTML = computerScore;
-      })
-      // .add(notificationAnimation());
+    tl.add(firstTl(areaSpan)).call(() => {
+      areaSpan.innerHTML = choiceHand;
+      humanSpanScore.innerHTML = humanScore;
+      computerSpanScore.innerHTML = computerScore;
+    });
   };
 
   let getHumanChoice = (e) => {
@@ -72,7 +84,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     console.log(imageChoices);
     handShowAnimation(playerAreaSpan, handAnimation, imageChoices[choice]);
-    // playerAreaSpan.innerHTML = imageChoices[choice];
     return choice;
   };
 
@@ -84,7 +95,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
   };
 
   let notificationAnimation = (addClass) => {
-    let tl = gsap.timeline({ pause: true,  });
+    let tl = gsap.timeline({ pause: true });
     tl.call(() => {
       handSelectionArea.style.pointerEvents = "none";
       for (let i = 0; i < handSelectionArea.children.length; i++) {
@@ -117,25 +128,26 @@ document.addEventListener("DOMContentLoaded", (event) => {
         for (let i = 0; i < handSelectionArea.children.length; i++) {
           handSelectionArea.children[i].classList.remove("disable");
         }
-      });
+      })
 
     return tl;
   };
 
   let playRound = (humanChoice, computerChoice) => {
+    round++;
     let humanWon = false;
     if (humanChoice === computerChoice) {
       notification.innerHTML = `It's a tie!`;
-      notificationAnimation()
+      notificationAnimation();
       return;
     }
-    if ((humanChoice === "rock") & (computerChoice === "scissor")) {
+    if (humanChoice === "rock" && computerChoice === "scissor") {
       humanScore += 1;
       humanWon = true;
-    } else if ((humanChoice === "paper") & (computerChoice === "rock")) {
+    } else if (humanChoice === "paper" && computerChoice === "rock") {
       humanScore += 1;
       humanWon = true;
-    } else if ((humanChoice === "scissor") & (computerChoice === "paper")) {
+    } else if (humanChoice === "scissor" && computerChoice === "paper") {
       humanScore += 1;
       humanWon = true;
     } else {
@@ -144,10 +156,28 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     notification.innerHTML = `You ${humanWon ? "Win" : "Lose"}! ${humanChoice} ${humanWon ? "beats" : "can't beat"} ${computerChoice}`;
     let addClass = humanWon ? "win" : "lose";
-    notificationAnimation(addClass)
+    notificationAnimation(addClass);
+
+    isGameOver()
+  };
+
+
+  let gameReset = () => {
+    round = 0;
+    humanScore = 0;
+    computerScore = 0;
+
+    playerAreaSpan.innerHTML = "";
+    computerAreaSpan.innerHTML = "";
+
+    humanSpanScore.innerHTML = "0";
+    computerSpanScore.innerHTML = "0";
+
+    endGame.style.display = "none";
   };
   let handleClick = () => {
     handSelectionArea.style.display = "flex";
+    playBtn.style.display = "none";
   };
 
   let handleHandChoice = (e) => {
@@ -159,6 +189,5 @@ document.addEventListener("DOMContentLoaded", (event) => {
   playBtn.addEventListener("click", handleClick);
   handSelectionArea.addEventListener("click", handleHandChoice);
 
-  //   for (let index = 0; index < rounds; index++) {
-  //   }
+  btnReset.addEventListener("click", gameReset);
 });
