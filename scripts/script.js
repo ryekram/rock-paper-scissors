@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
   };
 
   let isGameOver = () => {
-    if (round === 2) {
+    if (round === 5) {
       endGame.style.display = "flex";
 
       if (humanScore > computerScore) {
